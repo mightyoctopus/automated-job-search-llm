@@ -13,6 +13,7 @@ class QueryAgent:
                 The prompt you generate will be used as queries for Exa and SerpAPI web search later on.
             """.strip()
 
+    # Json response from LLM
     user_prompt = """
             Generate search queries for my job search.
 
