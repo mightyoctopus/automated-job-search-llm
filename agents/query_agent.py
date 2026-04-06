@@ -55,7 +55,7 @@ class QueryAgent:
         """
 
         try:
-            print("LLM is generating a response...")
+            print("LLM is generating the best search queries...")
             response = self.client.chat.completions.create(
                 model="gpt-5-mini",
                 messages=[
@@ -85,9 +85,9 @@ class QueryAgent:
         if not isinstance(serp, list) or not isinstance(exa, list):
             raise ValueError(f"Response must contain 'serp' and 'exa' as lists.\nRaw response: {llm_res}")
 
-        if len(serp) != 10 or len(exa) != 10:
+        if len(serp) != self.num_queries or len(exa) != self.num_queries:
             raise ValueError(
-                f"Expected exactly 10 serp and 10 exa queries, got serp={len(serp)}, exa={len(exa)}."
+                f"Expected exactly {self.num_queries} serp and {self.num_queries} exa queries, got serp={len(serp)}, exa={len(exa)}."
             )
 
         return serp, exa
