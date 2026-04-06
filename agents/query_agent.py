@@ -12,33 +12,41 @@ class QueryAgent:
                 The prompt you generate will be used as queries for Exa and SerpAPI web search later on.
             """.strip()
 
-    # Json response from LLM
-    user_prompt = """
-            Generate search queries for my job search.
-
-            Requirements:
-            - I need a remote AI engineering role focused on agentic systems, AI agents, RAG pipelines, LoRA/QLoRA fine-tuning, AI integration, AI-driven applications, and LLM engineering including frontier and open-source Hugging Face models.
-            - The role must be remote-friendly for applicants from the global or worldwide region or ASIA, APAC or any upper category that includes South Korea. (Generate most used queries as possible that can include Asia region)
-            - Junior, mid-level, internship are preferred. Senior roles are still acceptable if realistic for a 3-year-experience developer.
-            - First 10 queries must be formatted for the google search operator style for SERP queries, and the next 10 queries are semantic search queries for Exa query style 
-            - It must not target specific job boards like LinkedIn, Indeed etc. It must be queries that search for companies' direct hiring page or ATS including GreenHouse, Lever, Workable or anything that tends to have static HTML for easy web scraping with BS4 
-            - Output exactly this JSON schema:
-
-            {
-              "serp": ["... exactly 10 strings ..."],
-              "exa": ["... exactly 10 strings ..."]
-            }
-
-            Rules:
-            - Return only raw JSON.
-            - No markdown fences.
-            - No explanation.
-            - Each list must contain exactly 10 strings.
-            """.strip()
-
-    def __init__(self, openai):
+    def __init__(self, openai, num_queries: int = 3):
         self.client = openai
+        self.num_queries = num_queries
         self._queries = None # to use cached queries as best as possible (to avoid duplicate LLM calls)
+
+
+    def build_user_prompt(self) -> str:
+        """
+        Build a dynamic user message to feed the LLM
+        """
+
+        # Ask the LLM to generate response in JSON
+        return f"""
+                    Generate search queries for my job search.
+
+                    Requirements:
+                    - I need a remote AI engineering role focused on agentic systems, AI agents, RAG pipelines, LoRA/QLoRA fine-tuning, AI integration, AI-driven applications, and LLM engineering including frontier and open-source Hugging Face models.
+                    - The role must be remote-friendly for applicants from the global or worldwide region or ASIA, APAC or any upper category that includes South Korea. (Generate most used queries as possible that can include Asia region)
+                    - Junior, mid-level, internship are preferred. Senior roles are still acceptable if realistic for a 3-year-experience developer.
+                    - First {self.num_queries} queries must be formatted for the google search operator style for SERP queries, and the next {self.num_queries} queries are semantic search queries for Exa query style 
+                    - It must not target specific job boards like LinkedIn, Indeed etc. It must be queries that search for companies' direct hiring page or ATS including GreenHouse, Lever, Workable or anything that tends to have static HTML for easy web scraping with BS4 
+                    - Output exactly this JSON schema:
+
+                    {
+                      "serp": ["... exactly {self.num_queries} strings ..."],
+                      "exa": ["... exactly {self.num_queries} strings ..."]
+                    }
+
+                    Rules:
+                    - Return only raw JSON.
+                    - No markdown fences.
+                    - No explanation.
+                    - Each list must contain exactly {self.num_queries} strings.
+                """.strip()
+
 
     def call_llm(self):
         """
@@ -52,7 +60,7 @@ class QueryAgent:
                 model="gpt-5-mini",
                 messages=[
                     {"role": "system", "content": self.system_message},
-                    {"role": "user", "content": self.user_prompt}
+                    {"role": "user", "content": self.build_user_prompt()}
                 ]
             )
             return response.choices[0].message.content
