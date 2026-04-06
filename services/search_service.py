@@ -5,9 +5,9 @@ class SearchService:
     Provide web search tools via SerpAPI and Exa API for fetching job results on the internet
     """
 
-    def __init__(self, serp, exa, serp_queries, exa_queries):
-        self.serp_client = serp
-        self.exa_client = exa
+    def __init__(self, serp_client, exa_client, serp_queries, exa_queries):
+        self.serp_client = serp_client
+        self.exa_client = exa_client
         self.serp_queries = serp_queries
         self.exa_queries = exa_queries
 
@@ -19,7 +19,7 @@ class SearchService:
 
         all_results = []
         for i, q in enumerate(self.serp_queries):
-            response = self.serp_client({
+            response = self.serp_client.search({
                 "engine": "google",
                 "google_domain": "google.com",
                 "hl": "en",
@@ -66,4 +66,14 @@ class SearchService:
             time.sleep(1)
 
         return all_exa_results
+
+
+    def run_web_search(self):
+        """
+        Run all API modules together
+        """
+        serp_search_results = self.serpapi_web_search()
+        exa_search_results = self.exa_web_search()
+
+        return serp_search_results, exa_search_results
 
