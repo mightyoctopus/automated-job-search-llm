@@ -32,7 +32,7 @@ class QueryGenerator:
                 - The role MUST be a remote role available for applicants from the global/worldwide region or ASIA, APAC or any upper regional category that includes South Korea. (Generate most used queries as possible that can include Asia region)
                 - Junior, mid-level, internship are preferred. Senior roles are still acceptable if realistic for a 3-year-experience developer.
                 - First {self.num_queries} queries must be formatted for the google search operator style for SERP queries, and the next {self.num_queries} queries are semantic search queries for Exa query style 
-                - It must not target specific job boards like LinkedIn, Indeed.com, ziprecruiter.com etc. It must be queries that search for companies' direct hiring page or ATS including GreenHouse, Lever, Workable, Ashby, Recuitee, Breezy HR, Zoho Recruit or anything similar to that (ATS) 
+                - It must avoid general job boards like LinkedIn, Indeed.com, ziprecruiter.com etc which have none to least global remote job offers. It must be queries that search for companies' direct hiring page or ATS including GreenHouse, Lever, Workable, Ashby, Recuitee, Breezy HR, Zoho Recruit or anything similar to that (ATS) or tech startup job boards that include global remote jobs offers 
                 - Output exactly this JSON schema:
 
                 {{
