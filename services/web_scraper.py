@@ -4,6 +4,7 @@ import time
 import random
 from job import Job
 from bs4 import BeautifulSoup
+from utils.domain_shuffling import apply_delay
 
 class WebScraper:
     """
@@ -17,6 +18,8 @@ class WebScraper:
     def web_scrape(self) -> List[Job]:
 
         scrapped_jobs = []
+        prev_domain = ""
+
         for i, job in enumerate(self.filtered_jobs):
             if not job.text:
                 try:
@@ -35,12 +38,8 @@ class WebScraper:
                 except requests.exceptions.RequestException as e:
                     print(f"JOB ID {i + 1}: Failed to scrape - {e}")
 
-                # Small random delay (always)
-                time.sleep(random.uniform(2.5, 4))
-
-                # Batch pause (longer delay) every 15 jobs
-                if (i + 1) % 15 == 0:
-                    time.sleep(random.uniform(4, 7))
+                # Time sleep & update prev_domain for the next iteration
+                prev_domain = apply_delay(index=i, job=job, prev_job_domain=prev_domain)
 
             scrapped_jobs.append(job)
 
