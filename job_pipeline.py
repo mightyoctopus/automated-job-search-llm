@@ -12,7 +12,7 @@ from processors.data_normalizer import DataNormalizer
 from processors.job_filter import JobFilter
 from services.web_scraper import WebScraper
 from processors.quality_checker import QualityChecker
-from utils.domain_shuffling import no_adjacent_same_domains
+from utils.request_controller import no_adjacent_same_domains
 
 class JobPipeline:
     """

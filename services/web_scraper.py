@@ -4,7 +4,7 @@ import time
 import random
 from job import Job
 from bs4 import BeautifulSoup
-from utils.domain_shuffling import apply_delay
+from utils.request_controller import apply_delay
 
 class WebScraper:
     """
