@@ -96,8 +96,14 @@ class JobPipeline:
         invalid_jobs = [job for job in marked_jobs if job.low_quality]
 
         shuffled_invalid_jobs = no_adjacent_same_domains(invalid_jobs)
+
+        # send invalid jobs to browser automation to enhance the job description quality by browsing scraping
         recovered_jobs = ["run_browser_automation(shuffled_invalid_jobs)"] # Implement later
 
+        # Combine all jobs before passing it to LLM Evaluator
         processed_jobs = valid_jobs + recovered_jobs
+
+
+        ###========== LLM Evaluator ==========###
 
 
