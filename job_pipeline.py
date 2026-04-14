@@ -1,11 +1,13 @@
 import os
 from dataclasses import dataclass
-from typing import Optional
+from typing import Optional, List
 from dotenv import load_dotenv
 from openai import OpenAI
 import serpapi
 from exa_py import Exa
+import asyncio
 
+from job import Job
 from llm_modules.query_generator import QueryGenerator
 from services.search_service import SearchService
 from processors.data_normalizer import DataNormalizer
@@ -13,6 +15,7 @@ from processors.job_filter import JobFilter
 from services.web_scraper import WebScraper
 from processors.quality_checker import QualityChecker
 from utils.request_controller import no_adjacent_same_domains
+from services.browser_automation import BrowserAutomation
 
 class JobPipeline:
     """
@@ -23,7 +26,7 @@ class JobPipeline:
     SERP_API_KEY = os.getenv("SERP_API_KEY")
     EXA_API_KEY = os.getenv("EXA_API_KEY")
 
-    def run(self):
+    async def run(self):
         """
         The main workflow of the app.
         """
@@ -96,13 +99,14 @@ class JobPipeline:
         valid_jobs = [job for job in marked_jobs if not job.low_quality] # low_quality = False
         invalid_jobs = [job for job in marked_jobs if job.low_quality]
 
-        shuffled_invalid_jobs = no_adjacent_same_domains(invalid_jobs)
+        shuffled_invalid_jobs: List[Job] = no_adjacent_same_domains(invalid_jobs)
 
         # send invalid jobs to browser automation to enhance the job description quality by browsing scraping
-        recovered_jobs = ["run_browser_automation(shuffled_invalid_jobs)"] # Implement later
+        browser_automation = BrowserAutomation(shuffled_invalid_jobs)
+        recovered_jobs = await browser_automation.run()
 
         # Combine all jobs before passing it to LLM Evaluator
-        processed_jobs = valid_jobs + recovered_jobs
+        all_processed_jobs = valid_jobs + recovered_jobs
 
 
         ###========== LLM Evaluator ==========###
