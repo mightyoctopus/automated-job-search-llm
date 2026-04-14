@@ -32,7 +32,7 @@ class BrowserAutomation:
         return p, browser, page
 
 
-    async def run(self):
+    async def run(self) -> List[Job]:
         """
         Execute browser automation for failed jobs
         """
