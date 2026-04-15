@@ -114,7 +114,7 @@ class JobEvaluator:
                 print(f"General OpenAI error: {e}")
                 job.keep = False
                 job.manual_check_required = True
-                job.reason = "Evaluation failed due to a API error"
+                job.reason = "Evaluation failed due to an API error"
                 return job
             except Exception as e:
                 print(f"Error calling LLM via OpenAI API: {e}")
