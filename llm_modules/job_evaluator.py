@@ -133,6 +133,7 @@ class JobEvaluator:
         # Remove failed ones
         self.final_results = [result for result in results if result is not None]
 
+        print("Job Evaluation is finished!")
         return self.final_results
 
 
