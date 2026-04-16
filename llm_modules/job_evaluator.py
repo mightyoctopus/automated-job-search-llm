@@ -29,7 +29,7 @@ class JobEvaluator:
         """.strip()
 
         base_user_prompt = """
-            You should filter out irrevant jobs and only pick out the best jobs that fit theese conditions:
+            You should filter out irrelevant jobs and only pick out the best jobs that fit theese conditions:
 
             - They must be an AI engineer jobs (LLM Engineering, RAG, AI Agents, Agentic Systems, LoRA/QLoRA, Machine Learning or any jobs relevant in AI engineering).
             - they MUST be remote roles that are available for the global/worldwide regions, Asia, or South Korea.
