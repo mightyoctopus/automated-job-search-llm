@@ -1,5 +1,6 @@
 from typing import Optional
 from dataclasses import dataclass
+from datetime import date
 
 @dataclass
 class Job:
@@ -13,3 +14,4 @@ class Job:
     reason: str = ""
     is_ai_role: Optional[bool] = None
     manual_check_required: bool = False
+    date: Optional[date] = None
