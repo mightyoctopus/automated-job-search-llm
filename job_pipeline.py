@@ -83,6 +83,7 @@ class JobPipeline:
         print(f"NUM OF SCRAPED JOBS: {len(scraped_jobs)}")
 
 
+
         ###========== Quality Checker ==========###
         quality_checker = QualityChecker(scraped_jobs)
         # mark low_quality = True for jobs with low-quality job description
@@ -95,6 +96,9 @@ class JobPipeline:
 
         shuffled_invalid_jobs: List[Job] = no_adjacent_same_domains(invalid_jobs)
 
+
+
+        ###========== Fallback Web Scraping (with Browser Automation) ==========###
         # send invalid jobs to browser automation to enhance the job description quality by browsing scraping
         browser_automation = BrowserAutomation(shuffled_invalid_jobs)
         recovered_jobs = await browser_automation.run()
@@ -103,7 +107,8 @@ class JobPipeline:
         all_processed_jobs = valid_jobs + recovered_jobs
 
         # Filter jobs out further to pass them to the final evaluator:
-        final_input_jobs = [job for job in all_processed_jobs if job.text and len(job.text.split()) > 150]
+        final_input_jobs = [job for job in all_processed_jobs if job.text and len(job.text.split()) > 80]
+
 
 
         ###========== LLM Evaluator ==========###
@@ -116,6 +121,7 @@ class JobPipeline:
         ###========== Sorting Valid Jobs ==========###
         valid_final_jobs = [job for job in final_job_results if job.keep]
         manual_check_list = [job for job in final_job_results if job.manual_check_required]
+
 
 
         ###========== Export to Spreadsheet ==========###
