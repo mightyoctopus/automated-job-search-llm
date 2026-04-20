@@ -140,14 +140,14 @@ class JobEvaluator:
                     job.reason = "Invalid JSON response"
                     return job
 
-                # Update objects in Job schema
+                # Update objects in Job schema (Converted from JSON)
                 job.is_ai_role = parsed_res["is_ai_role"]
                 job.keep = parsed_res["keep"]
                 job.manual_check_required = parsed_res['manual_check_required']
                 job.reason = parsed_res['reason']
                 job.score = parsed_res['score']
 
-                if not job.text or len(job.text.split()) <= 150:
+                if not job.text or len(job.text.split()) <= 80:
                     job.keep = False
                     job.manual_check_required = True
                     job.reason = "Insufficient job description text"
