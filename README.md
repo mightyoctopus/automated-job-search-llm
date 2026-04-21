@@ -188,7 +188,7 @@ Job:
 
 * Python
 * AsyncIO
-* OpenAI API
+* OpenAI API (gpt-5.4 & gpt-5-mini)
 * SerpAPI
 * Exa API
 * Playwright
