@@ -20,12 +20,19 @@ class SearchService:
         all_results = []
         for i, q in enumerate(self.serp_queries):
             try:
-                response = self.serp_client.search({
+                start = 0
+                num = 100
+                params = {
                     "engine": "google",
                     "google_domain": "google.com",
                     "hl": "en",
-                    "q": q
-                })
+                    "q": q,
+                    "cache": False,
+                    "start": start,
+                    "num": num #number of search results in a page
+                }
+
+                response = self.serp_client.search(params)
 
                 all_results.extend([
                     {**item, "searched_via": "serp"}
