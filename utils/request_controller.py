@@ -45,7 +45,7 @@ def apply_delay(index, job, prev_job_domain):
 
     if current_domain == prev_job_domain:
         print("Domain-Aware sleep...")
-        time.sleep(random.uniform(8, 12.5))
+        time.sleep(random.uniform(9, 15.7))
     else:
         # Small random delay (always)
         time.sleep(random.uniform(2.5, 4))
@@ -54,7 +54,7 @@ def apply_delay(index, job, prev_job_domain):
     # Batch pause (longer delay) every 15 jobs
     if (index + 1) % 15 == 0:
         print("Batch sleep...")
-        time.sleep(random.uniform(4, 8))
+        time.sleep(random.uniform(5, 9))
 
     prev_job_domain = current_domain
 
