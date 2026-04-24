@@ -23,7 +23,7 @@ class WebScraper:
         for i, job in enumerate(self.filtered_jobs):
             if not job.text:
 
-                # Time sleep & update prev_domain for the next iteration
+                # Time sleep (conditional delay based on each case) & update prev_domain for the next iteration
                 prev_domain = apply_delay(index=i, job=job, prev_job_domain=prev_domain)
 
                 try:
