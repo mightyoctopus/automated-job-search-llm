@@ -67,5 +67,8 @@ class WebScraper:
                     print(f"JOB ID {i + 1}: Failed to scrape - {e}")
                     scrapped_jobs.append(job)
 
+            else:
+                scrapped_jobs.append(job)
+
 
         return scrapped_jobs
