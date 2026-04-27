@@ -27,12 +27,8 @@ class QualityChecker:
             words = text.split()
             low_quality = False
 
-            if job.searched_via == "exa":
-                if len(words) < 80:
-                    low_quality = True
-            else:
-                if len(words) < 150:
-                    low_quality = True
+            if len(words) < 150:
+                low_quality = True
 
             if not any(k in text.lower() for k in keywords):
                 low_quality = True
