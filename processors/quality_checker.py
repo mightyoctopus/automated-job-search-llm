@@ -17,9 +17,15 @@ class QualityChecker:
 
         # Missing job related keywords
         keywords = [
-            "responsibilities", "requirements", "experience",
-            "qualifications", "skills", "what you'll do", "about the role"
+            "responsibilities", "responsibility", "requirements", "requirement",
+            "experience","qualifications", "qualification","skills",
+            "what you'll do", "what you will do", "about the role", "role overview",
+            "the role", "nice-to-have", "nice to have", "preferred",
+            "must have", "what we’re looking for", "what we are looking for",
+            "about you", "who you are", "responsibilities","duties", "apply",
+            "job description", "description", "benefits"
         ]
+
         counter = 0
         for job in self.jobs:
 
@@ -27,10 +33,9 @@ class QualityChecker:
             words = text.split()
             low_quality = False
 
-            if len(words) < 150:
-                low_quality = True
+            match_count = sum(1 for k in keywords if k in text.lower())
 
-            if not any(k in text.lower() for k in keywords):
+            if len(words) < 150 and match_count < 2:
                 low_quality = True
 
             job.low_quality = low_quality
